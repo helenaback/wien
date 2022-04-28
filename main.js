@@ -25,7 +25,6 @@ let layerControl = L.control.layers({
     "Basemap Gelände": L.tileLayer.provider("BasemapAT.terrain"),
     "Basemap Surface": L.tileLayer.provider("BasemapAT.surface"),
     "Basemap Orthofoto": L.tileLayer.provider("BasemapAT.orthofoto"),
-    "Basemap Terrain": L.tileLayer.provider("BasemapAT.terrain"),
     "Basemap High-DPI": L.tileLayer.provider("BasemapAT.highdpi"),
     "Basemap mit Orthofoto und Beschriftung": L.layerGroup ([
         L.tileLayer.provider("BasemapAT.orthofoto"),
@@ -41,3 +40,5 @@ let sightLayer = L.featureGroup();
 layerControl.addOverlay(sightLayer, "Sehenswürdigkeiten");
 
 let mrk = L.marker([stephansdom.lat, stephansdom.lng]).addTo(sightLayer);
+
+sightLayer.addTo(map)
