@@ -44,4 +44,6 @@ let mrk = L.marker([stephansdom.lat, stephansdom.lng]).addTo(sightLayer);
 sightLayer.addTo(map)
 
 //Massstab
-L.control.scale().addTo(map);
+L.control.scale({
+    imperial: false,
+}).addTo(map);
