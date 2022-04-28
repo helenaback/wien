@@ -16,6 +16,8 @@ main {
 }
 
 header {
+    /*wie Elemente angeordnet sein soll im Layout
+    Elemente werden mit space between (flex) ausgerichtet und zwar so dass es links und rechts bündig ist*/
     display: flex;
     justify-content: space-between;
     max-height: 50px;
@@ -37,7 +39,7 @@ article {
 
 article #map {
     width: 100%;
-    height: 85vh;
+    height: 85vh; /* wieviel der User am Bildschirm sehen kann --> 85% von der Karte wird gesehen*/
     border: 1px solid gray;
 }
 
