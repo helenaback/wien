@@ -55,35 +55,10 @@ let miniMap = new L.Control.MiniMap(
 ).addTo(map);
 
 // asynchron: Skript läuft weiter auch wenn Funktion noch nicht fertig ist 
-/*
-async function loadSites(url, layername) {
-    let response = await fetch(url)
-    let geojson = await response.json();
-    //console.log(geojson);
 
-    let overlay = L.featureGroup();
-
-    layerControl.addOverlay(overlay, layername);
-    overlay.addTo(map);
-
-
-    L.geoJSON(geojson).addTo(overlay);
-}
-
-loadSites("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json", "Sehenswürdigkeiten");
-
-loadSites("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json", "Haltestellen Vienna Sighseeing")
-
-loadSites("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json", "Liniennetz Vienna Sightseeing")
-
-loadSites("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json", "Fußgängerzone")
-
-loadSites("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json","Hotels und Unterkünfte")
-
-*/
 
 // Sehenswürdigkeiten 
-async function loadSights(url) {
+async function loadSites(url) {
     let response = await fetch(url);
     let geojson = await response.json(); 
     console.log(geojson);
@@ -92,7 +67,6 @@ async function loadSights(url) {
     overlay.addTo(map);
 
     
-
     L.geoJSON(geojson, {
         pointToLayer: function(geoJsonPoint,latlng) {
             console.log(geoJsonPoint.properties.NAME);
@@ -105,13 +79,21 @@ async function loadSights(url) {
                 <a href="${geoJsonPoint.properties.WEITERE_INF}">Weblink</a>
             `;
 
-            return L.marker(latlng).bindPopup(popup); 
+            return L.marker(latlng, {
+                icon: L.icon({
+                    iconUrl: "icons/photo.png"
+                })
+
+            }).bindPopup(popup); 
         }
 
     }).addTo(overlay);
 }
 
 loadSites("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json");
+
+
+
 
 
 //Haltestellen
