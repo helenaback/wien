@@ -81,7 +81,9 @@ async function loadSites(url) {
 
             return L.marker(latlng, {
                 icon: L.icon({
-                    iconUrl: "icons/photo.png"
+                    iconUrl: "icons/photo.png",
+                    iconAnchor: [16, 37],
+                    popupAnchor: [0, -37]
                 })
 
             }).bindPopup(popup); 
