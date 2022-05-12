@@ -186,7 +186,7 @@ loadLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 async function loadZones(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    console.log(geojson);
+    //console.log(geojson);
 
     let overlay = L.featureGroup();
     layerControl.addOverlay(overlay, "Fußgängerzonen");
@@ -216,7 +216,13 @@ loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 async function loadHotels(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    //console.log(geojson);
+    console.log(geojson.features);
+
+    //Hotels nach Namen sortieren
+    geojson.features.sort(function(a, b){
+        return a.properties.BETRIEB.toLowerCase() > b.properties.BETRIEB.toLowerCase()
+
+    })
 
     //Hotels werden als markerCluster eingeladen
     let overlay = L.markerClusterGroup(
