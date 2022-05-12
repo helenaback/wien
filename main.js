@@ -230,7 +230,9 @@ async function loadHotels(url) {
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
             //L.marker(latlng).addTo(map)
-            //console.log(geoJsonPoint.properties);
+            
+            let = document.querySelector("#searchList");
+            searchList.innerHTML += `<option value="${geoJsonPoint.properties.BETRIEB}"></option>`;
             let popup = `
             <strong>${geoJsonPoint.properties.BETRIEB}</strong><br>
             <hr>
@@ -275,6 +277,12 @@ async function loadHotels(url) {
 
 
     }).addTo(overlay);
+
+    let form = document.querySelector("#searchForm")
+    console.log(form.hotel);
+    form.suchen.onclick = function() {
+        console.log(form.hotel.value)
+    }
 
 }
 
