@@ -12,7 +12,7 @@ let startLayer = L.tileLayer.provider("BasemapAT.grau");
 /*Verweis auf div im html*/
 let map = L.map("map", {
     center: [stephansdom.lat, stephansdom.lng],
-    zoom: 12,
+    zoom: 16,
     layers: [startLayer],
 
 });
@@ -150,7 +150,7 @@ async function loadLines(url) {
     overlay.addTo(map);
 
     L.geoJSON(geojson, {
-        style: function(feature) {
+        style: function (feature) {
 
             let colors = {
                 "Red Line": "#FF4136 ",
@@ -158,14 +158,15 @@ async function loadLines(url) {
                 "Blue Line": "#0074D9",
                 "Green Line": "#2ECC40",
                 "Orange Line": "#FF851B"
-    
+
             };
-        
+
             return {
                 color: `${colors[feature.properties.LINE_NAME]}`,
+                //Dicke der Linie
                 weight: 4,
                 //10 Strich, 6 Lücke --> geht beliebig lange z.B. [10,5,1,20]. Strich und Lück wechseln sich ab
-                dashArray: [10,6]
+                dashArray: [10, 6]
             }
         }
     }).bindPopup(function (layer) {
@@ -191,9 +192,31 @@ async function loadZones(url) {
     layerControl.addOverlay(overlay, "Fußgängerzonen");
     overlay.addTo(map);
 
-    L.geoJSON(geojson).addTo(overlay);
+    L.geoJSON(geojson, {
+        style: function (feature) {
+
+        return {
+            color: "#F012BE", 
+            weight: 1,
+            opacity: 0.1,
+            fillOpacity: 0.1,
+
+        }
+    }
+        
+}).bindPopup(function (layer) {
+
+            return `
+        <h4> Fußgängerzone ${layer.feature.properties.ADRESSE}</h4>
+       <p> ${layer.feature.properties.ZEITRAUM || "gilt immer"} </p>
+        <p> ${layer.feature.properties.AUSN_TEXT || ""} </p>
+        `
+        }
+
+
+      ).addTo(overlay);
 }
-//loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json");
+loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json");
 
 // Unterkünfte
 async function loadHotels(url) {
@@ -201,7 +224,12 @@ async function loadHotels(url) {
     let geojson = await response.json();
     //console.log(geojson);
 
-    let overlay = L.featureGroup();
+    //Hotels werden als markerCluster eingeladen
+    let overlay = L.markerClusterGroup(
+        {
+            disableClusteringAtZoom: 17
+        }
+    );
     layerControl.addOverlay(overlay, "Hotels und Unterkünfte");
     overlay.addTo(map);
 
