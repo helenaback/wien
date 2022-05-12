@@ -162,7 +162,10 @@ async function loadLines(url) {
             };
         
             return {
-                color: `${colors[feature.properties.LINE_NAME]}`
+                color: `${colors[feature.properties.LINE_NAME]}`,
+                weight: 4,
+                //10 Strich, 6 Lücke --> geht beliebig lange z.B. [10,5,1,20]. Strich und Lück wechseln sich ab
+                dashArray: [10,6]
             }
         }
     }).bindPopup(function (layer) {
